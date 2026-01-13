@@ -76,12 +76,19 @@ for k in koordinate:
     if temperatura>max_razpon:
         max_razpon=temperatura
         max_razpon_mesto=k["ime"]
-print(max_razpon_mesto,max_razpon)
+#print(max_razpon_mesto,max_razpon)
 
 # 5: Izpiši vsa mesta, kjer bo jutri padalo (precipitation_sum[1] > 0)
 # Namig: Jutri je na indeksu [1], danes je [0]
 
+for k in koordinate:
+    lat=k["lat"]
+    lon=k["lon"]
+    url=f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=precipitation_sum&timezone=Europe%2FBerlin"
+    call=requests.get(url).json()
 
+    if call["daily"]["precipitation_sum"][0]>0:
+        print(k["ime"])
 
 # 6: Koliko mest bo imelo jutri maksimalno temperaturo nad 20°C?
 # Namig: Preštej mesta, kjer je temperature_2m_max[1] > 20
