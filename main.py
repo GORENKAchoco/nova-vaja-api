@@ -42,18 +42,46 @@ for k in koordinate:
     if max_pada>max_padavine:
         max_padavine=max_pada
         max_padavine_mesto=k["ime"]
-print(max_padavine_mesto,max_padavine)
+#print(max_padavine_mesto,max_padavine)
 
 # 3: Najdi najhladneje mesto v naslednjih 7 dneh
 # Namig: Nekatera mesta lahko nimajo podatkov, preveri dolžino seznama!
 
-
+min_padavine=0
+min_padavine_mesto=""
+for k in koordinate:
+    lat=k["lat"]
+    lon=k["lon"]
+    url=f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_min&timezone=Europe%2FBerlin"
+    call=requests.get(url).json()
+    min_pada=min(call["daily"]["temperature_2m_min"])
+    if min_pada>min_padavine:
+        min_padavine=min_pada
+        min_padavine_mesto=k["ime"]
+#print(min_padavine_mesto,min_padavine)
 
 # 4: Poišči mesto z največjim temperaturnim razponom (max - min) za prvi dan
 # Namig: Uporabi indeks [0] za prvi dan napovedi
 
+max_razpon=0
+max_razpon_mesto=""
+for k in koordinate:
+    lat=k["lat"]
+    lon=k["lon"]
+    url=f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_min,temperature_2m_max&timezone=Europe%2FBerlin"
+    call=requests.get(url).json()
+    max_temperatura=call["daily"]["temperature_2m_max"][0]
+    min_temperatura=call["daily"]["temperature_2m_min"][0]
+    temperatura=max_temperatura-min_temperatura
+    if temperatura>max_razpon:
+        max_razpon=temperatura
+        max_razpon_mesto=k["ime"]
+print(max_razpon_mesto,max_razpon)
+
 # 5: Izpiši vsa mesta, kjer bo jutri padalo (precipitation_sum[1] > 0)
 # Namig: Jutri je na indeksu [1], danes je [0]
+
+
 
 # 6: Koliko mest bo imelo jutri maksimalno temperaturo nad 20°C?
 # Namig: Preštej mesta, kjer je temperature_2m_max[1] > 20
