@@ -87,8 +87,14 @@ for k in koordinate:
     url=f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=precipitation_sum&timezone=Europe%2FBerlin"
     call=requests.get(url).json()
 
-    if call["daily"]["precipitation_sum"][0]>0:
-        print(k["ime"])
+    #if call["daily"]["precipitation_sum"][0]>0:
+        #print(k["ime"])
+
+arso api:
+url="https://vreme.arso.gov.si/api/1.0/location/?lang=sl&location=Kranj"
+call=requests.get(url).json()
+t=call['forecast3h']['features'][0]['properties']['days'][0]['timeline'][0]['t']
+print(t)
 
 # 6: Koliko mest bo imelo jutri maksimalno temperaturo nad 20°C?
 # Namig: Preštej mesta, kjer je temperature_2m_max[1] > 20
