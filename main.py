@@ -90,7 +90,7 @@ for k in koordinate:
     #if call["daily"]["precipitation_sum"][0]>0:
         #print(k["ime"])
 
-arso api:
+#arso api:
 url="https://vreme.arso.gov.si/api/1.0/location/?lang=sl&location=Kranj"
 call=requests.get(url).json()
 t=call['forecast3h']['features'][0]['properties']['days'][0]['timeline'][0]['t']
@@ -107,3 +107,28 @@ print(t)
 
 # 9: Ugotovi, koliko mest bo  v naslednjih 7 dneh brez padavin
 # Namig: Preveri, če ima mesto vsaj eno ničlo v precipitation_sum
+
+
+#date nagger vaja:
+
+from datetime import datetime
+
+leta = range(2026, 2036)
+prazniki = {}
+
+for leto in leta:
+    url = f"https://date.nager.at/api/v3/publicholidays/{leto}/AT"
+    call = requests.get(url).json()
+
+    delovni_dan = 0
+
+    for holiday in call:
+        date_obj = datetime.strptime(holiday["date"], "%Y-%m-%d")
+        if date_obj.weekday() < 5:
+            delovni_dan += 1
+
+            delovni_dan[leto] = delovni_dan
+
+
+max_holidays_year = max(prazniki, key=prazniki.get)
+max_holidays_count = prazniki[max_holidays_year]
